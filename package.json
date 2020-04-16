@@ -1,0 +1,29 @@
+{
+  "name": "productivity-timer",
+  "version": "1.0.0",
+  "description": "a productivity timer web app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \\\"Error: no test specified\\\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "web",
+    "app",
+    "node",
+    "js",
+    "rest",
+    "api",
+    "timer",
+    "productivity"
+  ],
+  "author": "JB",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "node-cron": "^2.0.3",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {}
+}
