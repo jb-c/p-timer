@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+    <title>Prodctivity Timer</title>
+
+    <!--CSS Links-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    <link rel="stylesheet" href="ui.css">
+</head>
+
+<body>
+    <div id = "leaderboard" style="visibility: hidden; opacity: 0;">
+        <h3>Leaderboard</h3>
+        <div id = "table-scroll">
+            <table style="width:100%; padding: 10px;" id = "leaderboard-table"></table>
+        </div>
+    </div>
+    <div style="display: flex; overflow: hidden;height:100%;margin:0px;padding:0px;">
+        <div id = "navbar">
+            <input type="button" value="Leaderboard" id = "leaderboard-btn">
+            <div id = "submit-div" style="opacity: 0; visibility: hidden;">
+                <input type="Text" placeholder="Name:" id = "submit-name">
+                <input type="button" value="Submit Time" id = "submit-btn">
+                <input type="button" value="Reset" id = "reset-btn">
+            </div>
+        </div>
+        <div id = "content">
+            <div id = "clock">
+                <div id = "timer-div">
+                    <svg style="overflow: visible; z-index:-1">
+                        <path id="timer-arc" fill="none" stroke="#779ecb" stroke-width="5"/>
+                        <circle id = "timer-handle" fill="white" />
+                    </svg>
+                    <h3 id = "timer-label">00:00:00</h3>
+                </div>
+                <br>
+                <div id = "below-timer">
+                    <input type="button" value="Start" id = "timer-btn">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<!--JavaScript Links-->
+<script src="app.js"></script>
+<script src="ui.js"></script>
+</html>
