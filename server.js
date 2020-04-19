@@ -56,7 +56,7 @@ function recieveTime(request,response){
 
 const cron = require("node-cron");
 
-cron.schedule("00 57 23 * * *", function() { // Executes at 23:57 every day
+cron.schedule("00 57 22 * * *", function() { // Executes at 23:57 every day. Note: Server is 1hr behind, will change with daylight savings
     var sunday = new Date().getDay() == 0; //True on a Sunday
 
     if(sunday){
