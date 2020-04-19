@@ -56,27 +56,20 @@ function recieveTime(request,response){
 
 const cron = require("node-cron");
 
-cron.schedule("0 0 * * *", function() { // Executes at 00:00 every day
-    clearDailies(function(err){if(err){console.log(err)}}); // Resets daily time
-});
+cron.schedule("00 57 23 * * *", function() { // Executes at 23:57 every day
+    var sunday = new Date().getDay() == 0; //True on a Sunday
 
-cron.schedule("1 0 * * 1", function() { // Executes at 00:01 every Monday
-    clearLeaderboard(function(err){if(err){console.log(err)}}); // Resets whole leaderboard
-});
-
-function clearDailies(callback){
-    for (var i = 0;i<leaderboard.length;i++){ // Loops through the leaderboard, clearing daily times
-        leaderboard[i].daily = 0;
+    if(sunday){
+        leaderboard = []; // Clears leaderboard
+    }else{
+        for (var i = 0;i<leaderboard.length;i++){ // Loops through the leaderboard, clearing daily times
+            leaderboard[i].daily = 0;
+        }
     }
-    // Save Leaderboard To JSON
-    fs.writeFile('leaderboard.json',JSON.stringify(leaderboard),(err)=>callback(err))
-}
 
-function clearLeaderboard(callback){
-    leaderboard = [];
-        // Save Leaderboard To JSON
-        fs.writeFile('leaderboard.json',JSON.stringify(leaderboard),(err)=>callback(err))
-}
+    // Save Leaderboard To JSON
+    fs.writeFile('leaderboard.json',JSON.stringify(leaderboard),(err)=>{if(err){console.log(err)}})
+});
 
 //
 // Leaderboard Interface
