@@ -3,6 +3,7 @@
 //
 // HTML Element Variables
 //
+var content_div = document.getElementById("content");
 
 var timer_div = document.getElementById("timer-div");
 var timer_arc = document.getElementById("timer-arc");
@@ -17,16 +18,25 @@ var reset_btn = document.getElementById("reset-btn")
 
 var leaderboard_btn = document.getElementById("leaderboard-btn");
 var leaderboard = document.getElementById("leaderboard");
-var leaderboard_table = document.getElementById("leaderboard-table")
+var leaderboard_table = document.getElementById("leaderboard-table");
+var colours_btn = document.getElementById("background-btn");
 
 //
 // Runs On Page Load
 //
 
-// Initial design features
+// Initial design features & Public Variables
 drawTimerArc(timer_div.offsetWidth/2,timer_div.offsetHeight/2,timer.arcRadius,0.99999);
 submit_name.style.width = `${leaderboard_btn.offsetWidth}px`;
 submit_btn.style.width = `${leaderboard_btn.offsetWidth}px`;
+
+var background = { // Public object to store properties relating to the colour of the background
+    colourShift: true,
+    period: 1, // In hours
+    colours: ['#cdd9a1','#b6cf89','#62b177','#58a089']
+}
+
+backgroundColourFade(timer.baseStartTime)
 
 //
 // Onclick Methods
@@ -60,6 +70,16 @@ reset_btn.onclick = function(){
 
 leaderboard_btn.onclick = function(){
     getLeaderboardData();
+}
+
+colours_btn.onclick = function(){
+    if(background.colourShift){
+        background.colourShift = false;
+        this.value = "Colour Fade: Off"
+    }else{
+        background.colourShift = true;
+        this.value = "Colour Fade: On "
+    }
 }
 
 //
@@ -130,6 +150,18 @@ function fadeOutElement(ele){
     }) //Sets visability to hidden once transition ends
 }
 
+function backgroundColourFade(t){
+    let T = new Date(t);
+    T = (T.getHours() + T.getMinutes()/60 + T.getSeconds()/3600)/background.period;
+    T = T - Math.floor(T); // So T is a fraction of how much we are through a period
+    
+    var i = Math.floor(T*background.colours.length); // Maps t to an index
+    var j = (i+1) % background.colours.length; // Next colour in list with wrap aroun
+    var J = T*background.colours.length-i; // fraction of the way between each colour
+
+    content_div.style.backgroundColor =  lerpColor(background.colours[i], background.colours[j], J);
+}
+
 function resetPage(){
     // Reset timer and page
     timer.ellapsedTime = 0;
@@ -196,3 +228,15 @@ function generateTableHead(table, data) { // Makes a html table header
       }
     }
   }
+
+  function lerpColor(a, b, amount) { // Takes in two hex strings, returns a lerped hex string
+    var ah = +a.replace('#', '0x')
+    ar = ah >> 16, ag = ah >> 8 & 0xff, ab = ah & 0xff,
+    bh = +b.replace('#', '0x')
+    br = bh >> 16, bg = bh >> 8 & 0xff, bb = bh & 0xff,
+    rr = ar + amount * (br - ar),
+    rg = ag + amount * (bg - ag),
+    rb = ab + amount * (bb - ab);
+
+    return '#' + ((1 << 24) + (rr << 16) + (rg << 8) + rb | 0).toString(16).slice(1);
+}
