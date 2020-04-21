@@ -7,7 +7,7 @@ timer = {startTime: new Date().getTime(),
          ellapsedTime: 0,
          running:false,
          updateInterval: 100, //ms
-         arcPeriod: 5, // mins
+         arcPeriod: 15, // mins
          arcRadius: 170, // px
          handleRadius: 10 // px
         } // Global timer obj, no need to encapsulate as only one timer

@@ -30,7 +30,8 @@ html,body{height:100%;margin:0px;padding:0px;}
 
 #navbar{
     height: 100%;
-    max-width:fit-content;
+    max-width:30%;
+    width: fit-content;
     padding:10px;
     background-color:var(--navbar-bg-colour);
     text-align: center;

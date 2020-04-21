@@ -10,6 +10,7 @@ var dom = {
     leaderboard_btn: document.getElementById("leaderboard-btn"),
 
     navbar: document.getElementById("navbar"),
+    navbar_hitbox: document.getElementById("navbar_hitbox"),
     lower_div: document.getElementById("lower-div"),
     submit_name: document.getElementById("submit-name"),
     submit_btn: document.getElementById("submit-btn"),
@@ -25,8 +26,8 @@ var dom = {
     colours_btn: document.getElementById("background-btn"),
     background: { // Object to store properties relating to the colour of the background
         colourShift: true,
-        period: 1, // In hours
-        colours: ['#cdd9a1','#b6cf89','#62b177','#58a089']
+        period: 0.5, // In hours
+        colours: ['#FECBA5','#FBD7BB','#FCEEC5','#FFE5B4','#F9D494','#F1C470','#cdd9a1','#b6cf89','#62b177','#58a089']
     }
 }
 
@@ -39,6 +40,7 @@ drawTimerArc(dom.timer_div.offsetWidth/2,dom.timer_div.offsetHeight/2,timer.arcR
 dom.submit_name.style.width = `${dom.leaderboard_btn.offsetWidth}px`;
 dom.submit_btn.style.width = `${dom.leaderboard_btn.offsetWidth}px`;
 dom.colours_btn.style.width = `${dom.leaderboard_btn.offsetWidth}px`;
+dom.navbar_hitbox.style.width = `${dom.navbar.offsetWidth/2}px`;
 
 backgroundColourFade(timer.baseStartTime);
 
@@ -62,15 +64,15 @@ dom.timer_btn.onclick = function(){
         slideOutToRightElement(dom.navbar);
 
         // A lot of callbacks to show and hide navbar when mouse goes in and out of the left portion of the screen
-        document.addEventListener('mouseover', function callback(event) {
+        dom.navbar_hitbox.addEventListener('mouseenter', function callback(event) {
             if(event.x < 0.2 * window.innerWidth && timer.running){ // Shownavbar
                 slideInFromLeftElement(dom.navbar)
-                document.removeEventListener('mouseover',callback);
+                dom.navbar_hitbox.removeEventListener('mouseenter',callback);
 
                 dom.navbar.addEventListener('mouseleave',function second_callback(event){  // Hide navbar             
                     slideOutToRightElement(dom.navbar);
                     dom.navbar.removeEventListener('mouseleave',second_callback);
-                    setTimeout(function(){ document.addEventListener('mouseover',callback) }, 100); // Reset event listenrs after a small delay
+                    setTimeout(function(){ dom.navbar_hitbox.addEventListener('mouseenter',callback) }, 100); // Reset event listenrs after a small delay
                 })
             }
         });
