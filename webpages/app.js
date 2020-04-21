@@ -8,8 +8,8 @@ timer = {startTime: new Date().getTime(),
          running:false,
          updateInterval: 100, //ms
          arcPeriod: 5, // mins
-         arcRadius: 100, // px
-         handleRadius: 7 // px
+         arcRadius: 170, // px
+         handleRadius: 10 // px
         } // Global timer obj, no need to encapsulate as only one timer
 
 function startTimer(){
@@ -19,7 +19,7 @@ function startTimer(){
 }
 
 function pauseTimer(){
-    clearInterval(timer.updateCallback)
+    clearInterval(timer.updateCallback);
 }
 
 function resumeTimer(){
@@ -31,9 +31,9 @@ function updateTimerAndLabels(){
     var now = new Date().getTime();
     timer.ellapsedTime = now-timer.startTime;
 
-    if(background.colourShift) backgroundColourFade(timer.baseStartTime + timer.ellapsedTime);
+    if(dom.background.colourShift) backgroundColourFade(timer.baseStartTime + timer.ellapsedTime);
 
-    drawTimerArc(timer_div.offsetWidth/2,timer_div.offsetHeight/2,timer.arcRadius,timer.ellapsedTime/(timer.arcPeriod*60000))
+    drawTimerArc(dom.timer_div.offsetWidth/2,dom.timer_div.offsetHeight/2,timer.arcRadius,timer.ellapsedTime/(timer.arcPeriod*60000))
     pushTimeToLabel(timer.ellapsedTime);
 }
 

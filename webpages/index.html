@@ -1,52 +1,58 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Prodctivity Timer</title>
 
-    <!--CSS Links-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
-    <link rel="stylesheet" href="ui.css">
-</head>
+    <head>
+        <title>Prodctivity Timer</title>
+        <!--CSS Links-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+        <link rel="stylesheet" href="ui.css">
+    </head>
 
-<body>
-    <div id = "leaderboard" style="visibility: hidden; opacity: 0;">
-        <h3>Leaderboard</h3>
-        <div id = "table-scroll">
-            <table style="width:100%; padding: 10px;" id = "leaderboard-table"></table>
-        </div>
-    </div>
-    <div style="display: flex; overflow: hidden;height:100%;margin:0px;padding:0px;">
-        <div id = "navbar">
-            <div id = "button-div">
-                <input type="button" value="Leaderboard" id = "leaderboard-btn">
-                <input type="button" value="*Colour Fade: On" id = "background-btn">
-            </div>
-
-
-            <div id = "submit-div" style="opacity: 0; visibility: hidden;">
-                <input type="Text" placeholder="Name:" id = "submit-name">
-                <input type="button" value="Submit Time" id = "submit-btn">
-                <input type="button" value="Reset" id = "reset-btn">
+    <body>
+        <div id = "leaderboard" style="visibility: hidden; opacity: 0;">
+            <h3>Leaderboard</h3>
+            <div id = "table">
+                <table style="width:100%; padding: 10px;" id = "leaderboard-table"></table>
             </div>
         </div>
-        <div id = "content">
-            <div id = "clock">
-                <div id = "timer-div">
-                    <svg style="overflow: visible; z-index:-1">
-                        <path id="timer-arc" fill="none" stroke="#41779e" stroke-width="5"/>
-                        <circle id = "timer-handle" fill="white" />
-                    </svg>
-                    <h3 id = "timer-label">00:00:00</h3>
+
+
+        <div class = "wrapper" style="height: 100%; width: 100%;">
+            <div id = "navbar" class = "slide_animation">
+                <div id = "upper-div" class = "controls-box">
+                    <input type="button" value="Leaderboard" id = "leaderboard-btn">
+                    <input type="button" value="Colour Fade: On" id = "background-btn">
                 </div>
-                <br>
-                <div id = "below-timer">
-                    <input type="button" value="Start" id = "timer-btn">
+
+
+                <div id = "lower-div" class = "controls-box" style="opacity: 0; visibility: hidden;">
+                    <input type="Text" placeholder="Name:" id = "submit-name">
+                    <input type="button" value="Submit Time" id = "submit-btn">
+                    <input type="button" value="Reset" id = "reset-btn">
                 </div>
             </div>
+
+            <div id = "content">
+                <div class = "wrapper" id = "timer-wrapper" style="overflow: visible;">
+                    <div id = "timer-div">
+                        <svg style="overflow: visible; z-index:-1">
+                            <path id="timer-arc" fill="none" stroke="#41779e" stroke-width="7"/>
+                            <circle id = "timer-handle" fill="white" />
+                        </svg>
+                        <h3 id = "timer-label" style="font-size:50px">00:00:00</h3>
+                    </div>
+
+                    <br>
+
+                    <div id = "below-timer">
+                        <input type="button" value="Start" id = "timer-btn" style="z-index: 2;">
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</body>
-<!--JavaScript Links-->
-<script src="app.js"></script>
-<script src="ui.js"></script>
+    </body>
+
+    <!--JavaScript Links-->
+    <script src="app.js"></script>
+    <script src="ui.js"></script>
+
 </html>

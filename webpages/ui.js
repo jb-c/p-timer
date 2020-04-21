@@ -3,81 +3,102 @@
 //
 // HTML Element Variables
 //
-var content_div = document.getElementById("content");
 
-var timer_div = document.getElementById("timer-div");
-var timer_arc = document.getElementById("timer-arc");
-var timer_handle = document.getElementById("timer-handle");
-var timer_label = document.getElementById("timer-label");
-var timer_btn = document.getElementById("timer-btn");
+var dom = {
+    leaderboard_div: document.getElementById("leaderboard"),
+    leaderboard_table: document.getElementById("leaderboard-table"),
+    leaderboard_btn: document.getElementById("leaderboard-btn"),
 
-var submit_div = document.getElementById("submit-div");
-var submit_name = document.getElementById("submit-name");
-var submit_btn = document.getElementById("submit-btn");
-var reset_btn = document.getElementById("reset-btn")
+    navbar: document.getElementById("navbar"),
+    lower_div: document.getElementById("lower-div"),
+    submit_name: document.getElementById("submit-name"),
+    submit_btn: document.getElementById("submit-btn"),
+    reset_btn: document.getElementById("reset-btn"),
 
-var leaderboard_btn = document.getElementById("leaderboard-btn");
-var leaderboard = document.getElementById("leaderboard");
-var leaderboard_table = document.getElementById("leaderboard-table");
-var colours_btn = document.getElementById("background-btn");
+    content_div: document.getElementById("content"),
+    timer_div: document.getElementById("timer-div"),
+    timer_arc: document.getElementById("timer-arc"),
+    timer_handle: document.getElementById("timer-handle"),
+    timer_label: document.getElementById("timer-label"),
+    timer_btn: document.getElementById("timer-btn"),
+
+    colours_btn: document.getElementById("background-btn"),
+    background: { // Object to store properties relating to the colour of the background
+        colourShift: true,
+        period: 1, // In hours
+        colours: ['#cdd9a1','#b6cf89','#62b177','#58a089']
+    }
+}
 
 //
 // Runs On Page Load
 //
 
 // Initial design features & Public Variables
-drawTimerArc(timer_div.offsetWidth/2,timer_div.offsetHeight/2,timer.arcRadius,0.99999);
-submit_name.style.width = `${leaderboard_btn.offsetWidth}px`;
-submit_btn.style.width = `${leaderboard_btn.offsetWidth}px`;
+drawTimerArc(dom.timer_div.offsetWidth/2,dom.timer_div.offsetHeight/2,timer.arcRadius,0.99999);
+dom.submit_name.style.width = `${dom.leaderboard_btn.offsetWidth}px`;
+dom.submit_btn.style.width = `${dom.leaderboard_btn.offsetWidth}px`;
+dom.colours_btn.style.width = `${dom.leaderboard_btn.offsetWidth}px`;
 
-var background = { // Public object to store properties relating to the colour of the background
-    colourShift: true,
-    period: 1, // In hours
-    colours: ['#cdd9a1','#b6cf89','#62b177','#58a089']
-}
-
-backgroundColourFade(timer.baseStartTime)
+backgroundColourFade(timer.baseStartTime);
 
 //
 // Onclick Methods
 //
-
-timer_btn.onclick = function(){
+    
+dom.timer_btn.onclick = function(){
     if(timer.running){
         timer.running = false;
-        timer_btn.value = "Resume";
+        dom.timer_btn.value = "Resume";
         pauseTimer();
-        fadeInElement(submit_div);
+        fadeInElement(dom.lower_div);
+        slideInFromLeftElement(dom.navbar);
     }else{
         timer.running = true;
-        timer_btn.value = "Pause";
-        if(timer.ellapsedTime==0){startTimer()}
-        else{resumeTimer();fadeOutElement(submit_div);} //Fades submit div out
+        dom.timer_btn.value = "Pause";
+        if(timer.ellapsedTime==0){startTimer();}
+        else{resumeTimer();fadeOutElement(dom.lower_div);} //Fades submit div out
+
+        slideOutToRightElement(dom.navbar);
+
+        // A lot of callbacks to show and hide navbar when mouse goes in and out of the left portion of the screen
+        document.addEventListener('mouseover', function callback(event) {
+            if(event.x < 0.2 * window.innerWidth && timer.running){ // Shownavbar
+                slideInFromLeftElement(dom.navbar)
+                document.removeEventListener('mouseover',callback);
+
+                dom.navbar.addEventListener('mouseleave',function second_callback(event){  // Hide navbar             
+                    slideOutToRightElement(dom.navbar);
+                    dom.navbar.removeEventListener('mouseleave',second_callback);
+                    setTimeout(function(){ document.addEventListener('mouseover',callback) }, 100); // Reset event listenrs after a small delay
+                })
+            }
+        });
     }
 }
 
-submit_btn.onclick = function(){    
+dom.submit_btn.onclick = function(){    
     // Submit data to server
-    sendData(submit_name.value,parseFloat(timer.ellapsedTime))
+    sendData(dom.submit_name.value,parseFloat(timer.ellapsedTime))
     resetPage();
-    fadeOutElement(submit_div);
+    fadeOutElement(dom.lower_div);
 }
 
-reset_btn.onclick = function(){
+dom.reset_btn.onclick = function(){
     resetPage();
-    fadeOutElement(submit_div);
+    fadeOutElement(dom.lower_div);
 }
 
-leaderboard_btn.onclick = function(){
+dom.leaderboard_btn.onclick = function(){
     getLeaderboardData();
 }
 
-colours_btn.onclick = function(){
-    if(background.colourShift){
-        background.colourShift = false;
+dom.colours_btn.onclick = function(){
+    if(dom.background.colourShift){
+        dom.background.colourShift = false;
         this.value = "Colour Fade: Off"
     }else{
-        background.colourShift = true;
+        dom.background.colourShift = true;
         this.value = "Colour Fade: On "
     }
 }
@@ -90,25 +111,25 @@ function drawLeaderboard(data){
     // Note: runs as a call back when data is fetched from server
 
     if(data.length == 0){ // Catches case when data = []
-        leaderboard_table.innerHTML = "No Entries Yet, Get Working!";
+        dom.leaderboard_table.innerHTML = "No Entries Yet, Get Working!";
     }else{
-        leaderboard_table.innerHTML = ""; // Clear table
+        dom.leaderboard_table.innerHTML = ""; // Clear table
         let keys = Object.keys(data[0]);
-        generateTable(leaderboard_table, data); // generate the table first
-        generateTableHead(leaderboard_table, keys); // then the head
+        generateTable(dom.leaderboard_table, data); // generate the table first
+        generateTableHead(dom.leaderboard_table, keys); // then the head
     }
 
     // Fade In
-    fadeInElement(leaderboard)
+    fadeInElement(dom.leaderboard_div)
 
     // Fade out when leaderboard is showing and we click outside the leaderboard
-    leaderboard.addEventListener("transitionend",function callback(){
-        leaderboard.removeEventListener("transitionend",callback);
+    dom.leaderboard_div.addEventListener("transitionend",function callback(){
+        dom.leaderboard_div.removeEventListener("transitionend",callback);
 
         document.addEventListener('click', function callback(event) {
-            var isClickInside = leaderboard.contains(event.target) || leaderboard_btn.contains(event.target);
+            var isClickInside = dom.leaderboard_div.contains(event.target) || dom.leaderboard_btn.contains(event.target);
             if (!isClickInside) {
-                fadeOutElement(leaderboard);
+                fadeOutElement(dom.leaderboard_div);
                 document.removeEventListener("click",callback);
             }
             });
@@ -119,7 +140,7 @@ function pushTimeToLabel(t){
     //Inp: t-time value to be displayed
     //Out: changes timer-label text accordingly
 
-    timer_label.innerHTML = new Date(t).toISOString().substr(11, 8);
+    dom.timer_label.innerHTML = new Date(t).toISOString().substr(11, 8);
 }
 
 function drawTimerArc(x,y,r,t){
@@ -130,11 +151,11 @@ function drawTimerArc(x,y,r,t){
     var [d,start,end] = describeSVGArc(x,y,r, 1/2*Math.PI, 1/2*Math.PI+2*Math.PI*t);
 
     // Assign svg arc path to html arc svg element
-    timer_arc.setAttribute("d",d);
+    dom.timer_arc.setAttribute("d",d);
     // Move the handle accordingly
-    timer_handle.setAttribute("cx",end[0]);
-    timer_handle.setAttribute("cy",end[1]);
-    timer_handle.setAttribute("r",timer.handleRadius);
+    dom.timer_handle.setAttribute("cx",end[0]);
+    dom.timer_handle.setAttribute("cy",end[1]);
+    dom.timer_handle.setAttribute("r",timer.handleRadius);
 }
 
 function fadeInElement(ele){
@@ -150,24 +171,32 @@ function fadeOutElement(ele){
     }) //Sets visability to hidden once transition ends
 }
 
+function slideInFromLeftElement(ele){
+    ele.classList.remove('out');
+}
+
+function slideOutToRightElement(ele){
+    ele.classList.add('out');
+}
+
 function backgroundColourFade(t){
     let T = new Date(t);
-    T = (T.getHours() + T.getMinutes()/60 + T.getSeconds()/3600)/background.period;
+    T = (T.getHours() + T.getMinutes()/60 + T.getSeconds()/3600)/dom.background.period;
     T = T - Math.floor(T); // So T is a fraction of how much we are through a period
     
-    var i = Math.floor(T*background.colours.length); // Maps t to an index
-    var j = (i+1) % background.colours.length; // Next colour in list with wrap aroun
-    var J = T*background.colours.length-i; // fraction of the way between each colour
+    var i = Math.floor(T*dom.background.colours.length); // Maps t to an index
+    var j = (i+1) % dom.background.colours.length; // Next colour in list with wrap aroun
+    var J = T*dom.background.colours.length-i; // fraction of the way between each colour
 
-    content_div.style.backgroundColor =  lerpColor(background.colours[i], background.colours[j], J);
+    dom.content_div.style.backgroundColor =  lerpColor(dom.background.colours[i], dom.background.colours[j], J);
 }
 
 function resetPage(){
     // Reset timer and page
     timer.ellapsedTime = 0;
-    submit_name.value = "";
-    timer_btn.value = "Start";
-    drawTimerArc(timer_div.offsetWidth/2,timer_div.offsetHeight/2,timer.arcRadius,0.99999)
+    dom.submit_name.value = "";
+    dom.timer_btn.value = "Start";
+    drawTimerArc(dom.timer_div.offsetWidth/2,dom.timer_div.offsetHeight/2,timer.arcRadius,0.99999)
     pushTimeToLabel(0)
 }
 
