@@ -197,7 +197,8 @@ function resetPage(){
     dom.submit_name.value = "";
     dom.timer_btn.value = "Start";
     drawTimerArc(dom.timer_div.offsetWidth/2,dom.timer_div.offsetHeight/2,timer.arcRadius,0.99999)
-    pushTimeToLabel(0)
+    pushTimeToLabel(0);
+    slideInFromLeftElement(dom.navbar);
 }
 
 //
