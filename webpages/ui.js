@@ -175,10 +175,12 @@ function fadeOutElement(ele){
 
 function slideInFromLeftElement(ele){
     ele.classList.remove('out');
+    dom.navbar_hitbox.style.visibility = "hidden";
 }
 
 function slideOutToRightElement(ele){
     ele.classList.add('out');
+    dom.navbar_hitbox.style.visibility = "visible";
 }
 
 function backgroundColourFade(t){
