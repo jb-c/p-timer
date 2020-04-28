@@ -14,6 +14,7 @@ timer = {startTime: new Date().getTime(),
 
 function startTimer(){
     timer.startTime=new Date().getTime(); //Time when timer was started
+    timer.baseStartTime = new Date().getTime();
     // Set update method to execute every timer.updateInterval milliseconds    
     timer.updateCallback = setInterval(()=>updateTimerAndLabels(),timer.updateInterval);
 }
