@@ -62,7 +62,7 @@ html,body{height:100%;margin:0px;padding:0px;}
 #lower-div{
     position: relative;
     top: 100%;
-    transform: translateY(-170%);
+    transform: translateY(-137%);
     transition: opacity 1s;
 }
 

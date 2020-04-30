@@ -23,11 +23,9 @@ var dom = {
     timer_label: document.getElementById("timer-label"),
     timer_btn: document.getElementById("timer-btn"),
 
-    colours_btn: document.getElementById("background-btn"),
     background: { // Object to store properties relating to the colour of the background
-        colourShift: true,
         period: 0.5, // In hours
-        colours: ['#FECBA5','#FBD7BB','#FCEEC5','#FFE5B4','#F9D494','#F1C470','#cdd9a1','#b6cf89','#62b177','#58a089']
+        colours: ["#ffadad","#ffd6a5","#fdffb6","#caffbf","#9bf6ff","#a0c4ff","#bdb2ff","#ffc6ff"]
     }
 }
 
@@ -39,7 +37,6 @@ var dom = {
 drawTimerArc(dom.timer_div.offsetWidth/2,dom.timer_div.offsetHeight/2,timer.arcRadius,0.99999);
 dom.submit_name.style.width = `${dom.leaderboard_btn.offsetWidth}px`;
 dom.submit_btn.style.width = `${dom.leaderboard_btn.offsetWidth}px`;
-dom.colours_btn.style.width = `${dom.leaderboard_btn.offsetWidth}px`;
 dom.navbar_hitbox.style.width = `${dom.navbar.offsetWidth/2}px`;
 
 backgroundColourFade(timer.baseStartTime);
@@ -93,16 +90,6 @@ dom.reset_btn.onclick = function(){
 
 dom.leaderboard_btn.onclick = function(){
     getLeaderboardData();
-}
-
-dom.colours_btn.onclick = function(){
-    if(dom.background.colourShift){
-        dom.background.colourShift = false;
-        this.value = "Colour Fade: Off"
-    }else{
-        dom.background.colourShift = true;
-        this.value = "Colour Fade: On "
-    }
 }
 
 //
@@ -185,7 +172,7 @@ function slideOutToRightElement(ele){
 
 function backgroundColourFade(t){
     let T = new Date(t);
-    T = (T.getHours() + T.getMinutes()/60 + T.getSeconds()/3600)/dom.background.period;
+    T = (T.getHours() + T.getMinutes()/60 + T.getSeconds()/3600 + T.getMilliseconds()/3600000)/dom.background.period;
     T = T - Math.floor(T); // So T is a fraction of how much we are through a period
     
     var i = Math.floor(T*dom.background.colours.length); // Maps t to an index

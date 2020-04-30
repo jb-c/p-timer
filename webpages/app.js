@@ -6,7 +6,7 @@ timer = {startTime: new Date().getTime(),
          baseStartTime: new Date().getTime(), //Make a copy of the start time for use in colour shift function
          ellapsedTime: 0,
          running:false,
-         updateInterval: 100, //ms
+         updateInterval: 10, //ms
          arcPeriod: 15, // mins
          arcRadius: 170, // px
          handleRadius: 10 // px
@@ -32,7 +32,7 @@ function updateTimerAndLabels(){
     var now = new Date().getTime();
     timer.ellapsedTime = now-timer.startTime;
 
-    if(dom.background.colourShift) backgroundColourFade(timer.baseStartTime + timer.ellapsedTime);
+    backgroundColourFade(timer.baseStartTime + timer.ellapsedTime);
 
     drawTimerArc(dom.timer_div.offsetWidth/2,dom.timer_div.offsetHeight/2,timer.arcRadius,timer.ellapsedTime/(timer.arcPeriod*60000))
     pushTimeToLabel(timer.ellapsedTime);
