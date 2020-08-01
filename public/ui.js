@@ -79,8 +79,8 @@ dom.timer_btn.onclick = function(){
     }
 }
 dom.signin_btn.onclick = function(){
-    console.log("clicked")
-    fadeInElement(dom.signin_div)
+    var el = document.getElementById('sign-in');
+    el.classList.toggle("hidden");
 }
 
 dom.submit_btn.onclick = function(){    

@@ -13,15 +13,6 @@
             </div>
         </div>
 
-        <div id = "sign-in" style="color:black; z-index: 1; width: 50; display:none;">
-          <h3>Sign In</h3>
-          <form action="/signin" method="post">
-            <input type="text" name="username" placeholder="Username">
-            <input type="text" name="password" placeholder="Password">
-            <button type="submit" name="button">Sign in</button>
-          </form>
-          
-      </div>
 
 
         <div class = "wrapper" style="height: 100%; width: 100%;">
@@ -62,6 +53,18 @@
                 </div>
             </div>
         </div>
+
+
+        <div id = "sign-in"  class="hidden signIn">
+            <h3>Sign In</h3>
+            <form action="/signin" method="post">
+              <input type="text" name="username" placeholder="Username">
+              <input type="text" name="password" placeholder="Password">
+              <button type="submit" name="button">Sign in</button>
+            </form>
+            
+        </div>
+
     </body>
 
     <!-- JavaScript Links -->

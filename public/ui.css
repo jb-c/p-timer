@@ -24,9 +24,23 @@ html,body{height:100%;margin:0px;padding:0px;}
     overflow: hidden;
 }
 
+.hidden{
+    display: none;
+}
+
 /*
 ---Navbar---
 */
+
+.signIn{
+    background-color: white;
+    color:black; 
+    z-index: 1;
+
+    position: fixed;
+    top: 100px;
+    left:50%;
+}
 
 #navbar{
     height: 100%;
