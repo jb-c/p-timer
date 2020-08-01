@@ -1,77 +1,97 @@
-    <head>
-        <title>Prodctivity Timer</title>
-        <!--CSS Links-->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
-        <link rel="stylesheet" href="ui.css">
+ <% console.log(error) %>   
+   <head>
+      <title>Prodctivity Timer</title>
+      <!--CSS Links-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+      <link rel="stylesheet" href="ui.css">
     </head>
 
     <body>
-        <div id = "leaderboard" style="visibility: hidden; opacity: 0;">
-            <h3>Leaderboard</h3>
-            <div id = "table">
-                <table style="width:100%; padding: 10px;" id = "leaderboard-table"></table>
+      <div id="leaderboard" style="visibility: hidden; opacity: 0;">
+        <h3>Leaderboard</h3>
+        <div id="table">
+          <table style="width:100%; padding: 10px;" id="leaderboard-table"></table>
+        </div>
+      </div>
+
+
+
+      <div class="wrapper" style="height: 100%; width: 100%;">
+        <div id="navbar" class="slide_animation">
+          <div id="upper-div" class="controls-box">
+            <input type="button" value="Leaderboard" id="leaderboard-btn">
+            <% if(!user){ %>
+            <input type="button" value="Sign In" id="sign-in-btn">
+            <input type="button" value="Register" id="register-btn">
+            <% } else { %>
+            <input type="button" value="<%= user.username%>">
+            
+            <a href="./logout"><input type="button" value="Logout" id="logout-btn"></a>
+            <% } %> 
+          </div>
+
+
+          <div id="lower-div" class="controls-box" style="opacity: 0; visibility: hidden;">
+            <input type="Text" placeholder="Name:" id="submit-name">
+            <input type="button" value="Submit Time" id="submit-btn">
+            <input type="button" value="Reset" id="reset-btn">
+          </div>
+        </div>
+
+        <div id="navbar_hitbox"
+          style="height: 100%; width: 20%; z-index: 2; position: absolute; top:0; left: 0; visibility: hidden;"></div>
+
+        <div id="content">
+          <div class="wrapper" id="timer-wrapper" style="overflow: visible;">
+            <div id="timer-div">
+              <svg style="overflow: visible; z-index:-1">
+                <path id="timer-arc" fill="none" stroke="#41779e" stroke-width="7" />
+                <circle id="timer-handle" fill="white" />
+              </svg>
+              <h3 id="timer-label" style="font-size:50px">00:00:00</h3>
             </div>
-        </div>
 
+            <br>
 
-
-        <div class = "wrapper" style="height: 100%; width: 100%;">
-            <div id = "navbar" class = "slide_animation">
-                <div id = "upper-div" class = "controls-box">
-                    <input type="button" value="Leaderboard" id = "leaderboard-btn">
-                    <% if(!user){ %>
-                    <input type="button" value="Sign In" id = "sign-in-btn">
-                    <input type="button" value="Register" id = "register-btn">
-                    <% } %>
-                </div>
-
-
-                <div id = "lower-div" class = "controls-box" style="opacity: 0; visibility: hidden;">
-                    <input type="Text" placeholder="Name:" id = "submit-name">
-                    <input type="button" value="Submit Time" id = "submit-btn">
-                    <input type="button" value="Reset" id = "reset-btn">
-                </div>
+            <div id="below-timer">
+              <input type="button" value="Start" id="timer-btn" style="z-index: 2;">
             </div>
-
-            <div id = "navbar_hitbox" style = "height: 100%; width: 20%; z-index: 2; position: absolute; top:0; left: 0; visibility: hidden;"></div>
-
-            <div id = "content">
-                <div class = "wrapper" id = "timer-wrapper" style="overflow: visible;">
-                    <div id = "timer-div">
-                        <svg style="overflow: visible; z-index:-1">
-                            <path id="timer-arc" fill="none" stroke="#41779e" stroke-width="7"/>
-                            <circle id = "timer-handle" fill="white" />
-                        </svg>
-                        <h3 id = "timer-label" style="font-size:50px">00:00:00</h3>
-                    </div>
-
-                    <br>
-
-                    <div id = "below-timer">
-                        <input type="button" value="Start" id = "timer-btn" style="z-index: 2;">
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
 
 
-        <div id = "sign-in"  class="hidden signIn">
-            <h3>Sign In</h3>
-            <form action="/signin" method="post">
-              <input type="text" name="username" placeholder="Username">
-              <input type="text" name="password" placeholder="Password">
-              <button type="submit" name="button">Sign in</button>
-            </form>
-        </div>
+      <div id="sign-in" class="hidden signIn">
+        <h3>Sign In</h3>
+        <form action="/login" method="post">
+          <input type="text" name="username" placeholder="Username">
+          <input type="text" name="password" placeholder="Password">
+          <button type="submit" name="button">Sign in</button>
+        </form>
+      </div>
 
-        <div id="register" class="hidden register"> 
-            <h3>Register</h3>
-        </div>
+      <div id="register" class="hidden register">
+        <h3>Register</h3>
+        <form action="/register" method="post">
+          <input type="text" name="username" placeholder="Username">
+          <input type="text" name="password" placeholder="Password">
+          <button type="submit" name="button"> Register</button>
+        </form>
+      </div>
 
     </body>
 
     <!-- JavaScript Links -->
+    <% if(oldTimer){ %>
+      <script> let timer = JSON.parse('<%- JSON.stringify(oldTimer) %>') </script>
+    <% } else { %>
+      <script> let timer = undefined </script>
+    <% } %>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="app.js"></script>
     <script src="ui.js"></script>
+    
+    
+    
 
-</html>
+    </html>

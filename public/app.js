@@ -2,30 +2,36 @@
 // Timer & Timer Methods
 //
 
-timer = {startTime: new Date().getTime(),
-         baseStartTime: new Date().getTime(), //Make a copy of the start time for use in colour shift function
-         ellapsedTime: 0,
-         running:false,
-         updateInterval: 10, //ms
-         arcPeriod: 15, // mins
-         arcRadius: 170, // px
-         handleRadius: 10 // px
-        } // Global timer obj, no need to encapsulate as only one timer
+if(timer === undefined){
+        timer = {startTime: new Date().getTime(),
+        baseStartTime: new Date().getTime(), //Make a copy of the start time for use in colour shift function
+        ellapsedTime: 0,
+        running:false,
+        updateInterval: 10, //ms
+        arcPeriod: 15, // mins
+        arcRadius: 170, // px
+        handleRadius: 10 // px
+       } // Global timer obj, no need to encapsulate as only one timer
+}
+
 
 function startTimer(){
     timer.startTime=new Date().getTime(); //Time when timer was started
     timer.baseStartTime = new Date().getTime();
     // Set update method to execute every timer.updateInterval milliseconds    
     timer.updateCallback = setInterval(()=>updateTimerAndLabels(),timer.updateInterval);
+    sendTimer()
 }
 
 function pauseTimer(){
     clearInterval(timer.updateCallback);
+    sendTimer()
 }
 
 function resumeTimer(){
     timer.startTime = new Date().getTime() - timer.ellapsedTime;
     timer.updateCallback = setInterval(()=>updateTimerAndLabels(),timer.updateInterval);
+    sendTimer()
 }
 
 function updateTimerAndLabels(){
@@ -38,30 +44,50 @@ function updateTimerAndLabels(){
     pushTimeToLabel(timer.ellapsedTime);
 }
 
-//
-// Data Setter & Getter Methods
-//
+// //
+// // Data Setter & Getter Methods
+// //
 
-function sendData(name,time){
-    if(name==""){name="anon"} // Catch null case
+// function sendData(name,time){
+//     if(name==""){name="anon"} // Catch null case
 
-    fetch('./submit/'+name+'/'+time) // Go to relevant api path
-    .then(function(res){
-        return res.text();
-    })
-    .then((data)=>{
-        data = JSON.parse(data); // Response data
-        // Could do something here if needed...
-    })
+//     fetch('./submit/'+name+'/'+time) // Go to relevant api path
+//     .then(function(res){
+//         return res.text();
+//     })
+//     .then((data)=>{
+//         data = JSON.parse(data); // Response data
+//         // Could do something here if needed...
+//     })
+// }
+
+// function getLeaderboardData(){
+//     fetch('./leaderboard')
+//         .then(function(res){
+//             return res.text();
+//         })
+//         .then((data)=>{
+//             data = JSON.parse(data); // Responce data, should be leaderboard.json
+//             drawLeaderboard(data); // Pass data to drawLeaderboard function
+//         })
+// }
+
+function sendTimer(){
+    $.ajax({
+        url: './timer',
+        type:"POST",
+        data: timer,
+        success: function(result){
+            console.log(result)
+        },
+        error: function(error){
+            console.log(error)
+        }})
+    
 }
 
-function getLeaderboardData(){
-    fetch('./leaderboard')
-        .then(function(res){
-            return res.text();
-        })
-        .then((data)=>{
-            data = JSON.parse(data); // Responce data, should be leaderboard.json
-            drawLeaderboard(data); // Pass data to drawLeaderboard function
-        })
+// Login and register methods
+
+function attemptLogin(){
+    
 }

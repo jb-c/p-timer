@@ -9,6 +9,7 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const helmet = require('helmet')
 const flash=require("connect-flash");
+const { authenticate } = require('passport');
 
 
 
@@ -61,19 +62,31 @@ passport.deserializeUser(function (id, done) {
 
 app.post('/login',
   passport.authenticate('local', {
-    failureRedirect: '/login',
+    failureRedirect: '/',
     // failureFlash : { type: 'error', message: 'Invalid username or password.' }
-    failureFlash : true
+    // failureFlash : true
+    failureFlash: true
   }),
   function (req, res) {
-    console.log("test")
+    // console.log("test")
     res.redirect('/');
   });
 
+app.post('/login',
+  passport.authenticate('local'), function(req, res){
+    // console.log(req)
+  })
+
 app.get("/", function (req, res) {
-  console.log(req.user)
-  res.render("home", {user: req.user, error : req.flash('error')});
+  // console.log("session:",req.session)
+  res.render("home", {user: req.user, error : req.flash('error'), oldTimer : req.session.timer});
 });
+
+app.post("/timer", function(req,res){
+  // console.log(req.body)
+  req.session.timer = req.body
+  res.send("recieved")
+})
 
 app.get("/login", function (req, res) {
   // res.render("login");
@@ -106,6 +119,11 @@ app.post("/register", function (req, res) {
   });
 });
 
+// Logout
+app.get("/logout", function(req, res){
+  req.logout();
+  res.redirect("/");
+});
 
 
 
