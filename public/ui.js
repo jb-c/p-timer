@@ -11,6 +11,7 @@ var dom = {
 
     signin_div: document.getElementById("sign-in"),
     signin_btn: document.getElementById("sign-in-btn"),
+    register_btn: document.getElementById("register-btn"),
 
     navbar: document.getElementById("navbar"),
     navbar_hitbox: document.getElementById("navbar_hitbox"),
@@ -82,6 +83,11 @@ dom.signin_btn.onclick = function(){
     var el = document.getElementById('sign-in');
     el.classList.toggle("hidden");
 }
+dom.register_btn.onclick = function(){
+    var el = document.getElementById('register');
+    el.classList.toggle("hidden");
+}
+
 
 dom.submit_btn.onclick = function(){    
     // Submit data to server

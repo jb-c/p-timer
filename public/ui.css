@@ -42,6 +42,16 @@ html,body{height:100%;margin:0px;padding:0px;}
     left:50%;
 }
 
+.register{
+    background-color: white;
+    color:black; 
+    z-index: 1;
+
+    position: fixed;
+    top: 100px;
+    left:50%;
+}
+
 #navbar{
     height: 100%;
     max-width:30%;
