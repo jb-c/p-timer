@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js"></script>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar fixed-top navbar-expand-sm navbar-light" style="background-color: #DCDCDC;">
+    <a class="navbar-brand"><img src="./media/logo.svg" width="30" height="30"></a>
+    <h4>Productivity Timer</h4>
+
+    <!-- Toggle Button For Mobile -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Items -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li>
+          <form class="form-inline my-2 my-lg-0">
+            <button class="btn btn-outline-success my-2 my-sm-0" style="margin-right: 0.5rem;">Leaderboard</button>
+          </form>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">Sign Up</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">Login</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Profile
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item">Account Settings</a>
+            <a class="dropdown-item">Timer Settings</a>
+            <a class="dropdown-item">My Groups</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item">Log Out</a>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+  <!-- End of Navber-->
+
+  <!-- Main Content -->
+  <div style=" width: 100%; height: 100%; position: fixed; left: 0; top: 0; background-color: #4369ab; text-align: center;">
+
+    <!-- To be conditionally injected by react-->
+    <div id="overlay"></div>
+    <!-- To be injected by react -->
+    <div id="timer"></div>
+
+
+  </div>
+</body>
+
+</html>
